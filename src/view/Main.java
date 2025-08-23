@@ -2,6 +2,6 @@ package view;
 
 public class Main {
     public static void main(String[] args) {
-        //test text
+        System.out.println("HELLO WORLD");
     }
 }
