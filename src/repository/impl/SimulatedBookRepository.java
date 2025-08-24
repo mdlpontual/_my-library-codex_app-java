@@ -21,13 +21,21 @@ public class SimulatedBookRepository implements BookRepository {
     }
 
     @Override
-    public List<Book> findById() {
-        return List.of();
+    public Book findById(Integer id) {
+        return bookDatabase.getBookCollection()
+                .stream()
+                .filter(book -> book.getId().equals(id))
+                .findFirst()
+                .orElse(null); // orElseThrow(...)
     }
 
     @Override
-    public List<Book> findByTitle() {
-        return List.of();
+    public Book findByTitle(String title) {
+        return bookDatabase.getBookCollection()
+                .stream()
+                .filter(book -> book.getTitle().equals(title))
+                .findFirst()
+                .orElse(null); // orElseThrow(...)
     }
 
     @Override

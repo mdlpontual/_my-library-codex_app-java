@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface BookRepository {
     List<Book> listAll();
-    List<Book> findById();
-    List<Book> findByTitle();
+
+    Book findById(Integer id);
+    Book findByTitle(String title);
 
     void addNewBook();
 
