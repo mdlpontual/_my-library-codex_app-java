@@ -26,7 +26,7 @@ public class SimulatedBookRepository implements BookRepository {
                 .stream()
                 .filter(book -> book.getId().equals(id))
                 .findFirst()
-                .orElse(null); // orElseThrow(...)
+                .orElse(null);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SimulatedBookRepository implements BookRepository {
                 .stream()
                 .filter(book -> book.getTitle().equals(title))
                 .findFirst()
-                .orElse(null); // orElseThrow(...)
+                .orElse(null);
     }
 
     @Override
