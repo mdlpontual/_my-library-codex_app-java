@@ -39,32 +39,17 @@ public class SimulatedBookRepository implements BookRepository {
     }
 
     @Override
-    public void addNewBook(Book newBookEntry) {
+    public void addBook(Book newBookEntry) {
         bookDatabase.getBookCollection().add(newBookEntry);
     }
 
     @Override
     public void removeById(Integer id) {
-
+        bookDatabase.getBookCollection().remove(this.findById(id));
     }
 
     @Override
     public void removeByTitle(String title) {
-
-    }
-
-    @Override
-    public void editTitle() {
-
-    }
-
-    @Override
-    public void editAuthor() {
-
-    }
-
-    @Override
-    public void editGenre() {
-
+        bookDatabase.getBookCollection().remove(this.findByTitle(title));
     }
 }

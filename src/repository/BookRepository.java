@@ -10,12 +10,8 @@ public interface BookRepository {
     Book findById(Integer id);
     Book findByTitle(String title);
 
-    void addNewBook(Book newBookEntry);
+    void addBook(Book newBookEntry);
 
     void removeById(Integer id);
     void removeByTitle(String title);
-
-    void editTitle();
-    void editAuthor();
-    void editGenre();
 }
