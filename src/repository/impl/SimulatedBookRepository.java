@@ -26,7 +26,7 @@ public class SimulatedBookRepository implements BookRepository {
                 .stream()
                 .filter(book -> book.getId().equals(id))
                 .findFirst()
-                .orElse(null); //
+                .orElse(null);
     }
 
     @Override
@@ -39,17 +39,17 @@ public class SimulatedBookRepository implements BookRepository {
     }
 
     @Override
-    public void addNewBook() {
+    public void addNewBook(Book newBookEntry) {
+        bookDatabase.getBookCollection().add(newBookEntry);
+    }
+
+    @Override
+    public void removeById(Integer id) {
 
     }
 
     @Override
-    public void removeById() {
-
-    }
-
-    @Override
-    public void removeByTitle() {
+    public void removeByTitle(String title) {
 
     }
 

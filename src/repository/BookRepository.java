@@ -10,10 +10,10 @@ public interface BookRepository {
     Book findById(Integer id);
     Book findByTitle(String title);
 
-    void addNewBook();
+    void addNewBook(Book newBookEntry);
 
-    void removeById();
-    void removeByTitle();
+    void removeById(Integer id);
+    void removeByTitle(String title);
 
     void editTitle();
     void editAuthor();
