@@ -30,7 +30,7 @@ public class SimulatedAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public Author findByTitle(String title) {
+    public Author findByName(String title) {
         return authorDatabase.getAuthorList()
                 .stream()
                 .filter(book -> book.getName().equals(title))

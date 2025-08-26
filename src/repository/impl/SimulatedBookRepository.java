@@ -33,7 +33,7 @@ public class SimulatedBookRepository implements BookRepository {
     public Book findByTitle(String title) {
         return bookDatabase.getBookCollection()
                 .stream()
-                .filter(book -> book.getTitle().equals(title))
+                .filter(book -> book.getTitle().trim().equalsIgnoreCase(title.trim()))
                 .findFirst()
                 .orElse(null);
     }

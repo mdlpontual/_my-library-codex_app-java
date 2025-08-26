@@ -9,5 +9,5 @@ public interface GenreRepository {
     List<Genre> listAll();
 
     Genre findById(Integer id);
-    Genre findByTitle(String title);
+    Genre findByName(String title);
 }
