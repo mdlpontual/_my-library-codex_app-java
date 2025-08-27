@@ -49,28 +49,34 @@ public class BookService {
             throw new IllegalArgumentException("genre/name is required");
         }
 
-        // checks minimum input length
+        // trims and updates inputs
         String title = newBookEntry.getTitle().trim();
         String authorName = newBookEntry.getAuthor().getName().trim();
         String genreName  = newBookEntry.getGenre().getName().trim();
-        if (newBookEntry.getTitle().length() < 2) {
+        newBookEntry.setTitle(title);
+        newBookEntry.getAuthor().setName(authorName);
+        newBookEntry.getGenre().setName(genreName);
+
+        // checks minimum input length - with trimmed values
+        if (title.length() < 2) {
             throw new IllegalArgumentException("Invalid title input. Title must have at least 2 characters.");
-        } else if (newBookEntry.getAuthor().getName().length() < 2) {
+        } else if (authorName.length() < 2) {
             throw new IllegalArgumentException("Invalid name. Author's name must have at least 2 characters");
-        } else if (newBookEntry.getGenre().getName().length() < 2) {
+        } else if (genreName.length() < 2) {
             throw new IllegalArgumentException("Invalid name. Genre's name must have at least 2 characters");
         }
-
-        // vars prevent multiple independent method calls
-        var existingAuthor = authorRepository.findByName(authorName);
-        var existingGenre = genreRepository.findByName(genreName);
 
         // checks book database:
         // if there is a match, throws error to prevent duplicates
         // if there is no match, returns new entry to proceed to repository - at the end
         if (bookRepository.findByTitle(title) != null) {
-            throw new IllegalArgumentException(title + " already has an entry.");
+            throw new IllegalArgumentException("book with title '" + title + "' already has an entry.");
         }
+
+        // vars prevent multiple independent method calls
+        // after Book obj is validated to not run unnecessarily in case is null
+        var existingAuthor = authorRepository.findByName(authorName);
+        var existingGenre = genreRepository.findByName(genreName);
 
         // checks author database:
         // if there is a match, reset new entry's author to the existing one on db
