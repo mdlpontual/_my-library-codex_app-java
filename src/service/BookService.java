@@ -124,9 +124,10 @@ public class BookService {
         // prevents silent no-op - if the operation is successful (it does delete) but there is nothing to delete
         // this is not a problem in the repository - is just a no-op
         // but in the service is important, because is here where we throw exceptions if needed, no in the repo
-        if (bookRepository.findByTitle(title) == null) {
-            throw new NoSuchElementException("book title " + title + " not found");
+        String trimmedTitle = title.trim();
+        if (bookRepository.findByTitle(trimmedTitle) == null) {
+            throw new NoSuchElementException("book title " + trimmedTitle + " not found");
         }
-        bookRepository.removeByTitle(title);
+        bookRepository.removeByTitle(trimmedTitle);
     }
 }
