@@ -30,11 +30,16 @@ public class SimulatedGenreRepository implements GenreRepository {
     }
 
     @Override
-    public Genre findByName(String title) {
+    public Genre findByName(String name) {
         return genreDatabase.getGenreList()
                 .stream()
-                .filter(book -> book.getName().equals(title))
+                .filter(book -> book.getName().trim().equalsIgnoreCase(name.trim()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public void addGenre(Genre newGenreEntry) {
+        genreDatabase.getGenreList().add(newGenreEntry);
     }
 }

@@ -39,24 +39,51 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
-    public void addBook(Book newBookEntry) {
+    public Book addBook(Book newBookEntry) {
+        if (newBookEntry ==  null) {
+            throw new IllegalArgumentException("Invalid book.");
+        };
+
+        // basic input check - checks book database:
+        // if there is a match, throws error to prevent duplicates
+        // if there is no match, returns new entry to proceed to repository - return at the end
         if (newBookEntry.getTitle() == null || newBookEntry.getTitle().length() < 2) {
             throw new IllegalArgumentException("Invalid title input.");
         } else if (bookRepository.listAll()
-                    .stream()
-                    .anyMatch(n -> n.getTitle().trim()
-                    .equalsIgnoreCase(newBookEntry.getTitle().toLowerCase().trim()))) {
-            throw new IllegalArgumentException("This title already have an entry.");
+                .stream()
+                .anyMatch(n -> n.getTitle().trim()
+                        .equalsIgnoreCase(newBookEntry.getTitle().toLowerCase().trim()))) {
+            throw new IllegalArgumentException("This title already has an entry.");
         }
 
+        // basic input check - checks author database:
+        // if there is a match, reset new entry's author to the existing one on db
+        // if there is no match, adds as a new entry to author db
         if (newBookEntry.getAuthor().getName() == null || newBookEntry.getAuthor().getName().length() < 2) {
             throw new IllegalArgumentException("Invalid author name.");
         } else if (authorRepository.listAll()
                 .stream()
-                .anyMatch(n -> n.getName().trim()
-                        .equalsIgnoreCase(newBookEntry.getAuthor().getName().toLowerCase().trim()))) {
-            // if any match I will need to swap the input one for the one in the db
-            // else i add to the database
+                .anyMatch(n -> n.getName().trim().equalsIgnoreCase(
+                        newBookEntry.getAuthor().getName().toLowerCase().trim()))) {
+            newBookEntry.setAuthor(authorRepository.findByName(newBookEntry.getAuthor().getName()));
+        } else {
+            authorRepository.addAuthor(newBookEntry.getAuthor());
         }
+
+        // basic input check - checks genre database:
+        // if there is a match, reset new entry's genre to the existing one on db
+        // if there is no match, adds as a new entry to genre db
+        if (newBookEntry.getGenre().getName() == null || newBookEntry.getGenre().getName().length() < 2) {
+            throw new IllegalArgumentException("Invalid genre name.");
+        } else if (genreRepository.listAll()
+                .stream()
+                .anyMatch(n -> n.getName().trim().equalsIgnoreCase(
+                        newBookEntry.getGenre().getName().toLowerCase().trim()))) {
+            newBookEntry.setGenre(genreRepository.findByName(newBookEntry.getGenre().getName()));
+        } else {
+            genreRepository.addGenre(newBookEntry.getGenre());
+        }
+
+        return newBookEntry;
     }
 }

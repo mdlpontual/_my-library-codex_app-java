@@ -9,4 +9,6 @@ public interface AuthorRepository {
 
     Author findById(Integer id);
     Author findByName(String title);
+
+    void addAuthor(Author newAuthorEntry);
 }

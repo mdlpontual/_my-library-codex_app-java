@@ -10,4 +10,6 @@ public interface GenreRepository {
 
     Genre findById(Integer id);
     Genre findByName(String title);
+
+    void addGenre(Genre newGenreEntry);
 }
