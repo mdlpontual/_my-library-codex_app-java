@@ -5,8 +5,8 @@ import repository.impl.SimulatedAuthorRepository;
 import repository.impl.SimulatedBookRepository;
 import repository.impl.SimulatedGenreRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class BookService {
     private final SimulatedBookRepository bookRepository;
@@ -100,5 +100,33 @@ public class BookService {
 
         // calls repository version of addBook with verified input data
         bookRepository.addBook(newBookEntry);
+    }
+
+    public void removeById(Integer id) {
+        // input validation
+        if(id == null || id <= 0) {
+            throw new IllegalArgumentException("ID must be a positive number");
+        }
+        // prevents silent no-op - if the operation is successful (it does delete) but there is nothing to delete
+        // this is not a problem in the repository - is just a no-op
+        // but in the service is important, because is here where we throw exceptions if needed, no in the repo
+        if (bookRepository.findById(id) == null) {
+            throw new NoSuchElementException("book id " + id + " not found");
+        }
+        bookRepository.removeById(id);
+    }
+
+    public void removeByTitle(String title) {
+    // input validation
+        if(title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Title must not be empty");
+        }
+        // prevents silent no-op - if the operation is successful (it does delete) but there is nothing to delete
+        // this is not a problem in the repository - is just a no-op
+        // but in the service is important, because is here where we throw exceptions if needed, no in the repo
+        if (bookRepository.findByTitle(title) == null) {
+            throw new NoSuchElementException("book title " + title + " not found");
+        }
+        bookRepository.removeByTitle(title);
     }
 }
