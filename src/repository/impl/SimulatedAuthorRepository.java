@@ -31,9 +31,10 @@ public class SimulatedAuthorRepository implements AuthorRepository {
 
     @Override
     public Author findByName(String name) {
+        String trimmedName = name.trim();
         return authorDatabase.getAuthorList()
                 .stream()
-                .filter(book -> book.getName().trim().equalsIgnoreCase(name.trim()))
+                .filter(book -> book.getName().trim().equalsIgnoreCase(trimmedName))
                 .findFirst()
                 .orElse(null);
     }

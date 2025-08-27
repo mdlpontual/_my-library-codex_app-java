@@ -31,9 +31,10 @@ public class SimulatedBookRepository implements BookRepository {
 
     @Override
     public Book findByTitle(String title) {
+        String trimmedTitle = title.trim();
         return bookDatabase.getBookCollection()
                 .stream()
-                .filter(book -> book.getTitle().trim().equalsIgnoreCase(title.trim()))
+                .filter(book -> book.getTitle().trim().equalsIgnoreCase(trimmedTitle))
                 .findFirst()
                 .orElse(null);
     }
@@ -50,6 +51,7 @@ public class SimulatedBookRepository implements BookRepository {
 
     @Override
     public void removeByTitle(String title) {
-        bookDatabase.getBookCollection().remove(this.findByTitle(title));
+        String trimmedTitle = title.trim();
+        bookDatabase.getBookCollection().remove(this.findByTitle(trimmedTitle));
     }
 }

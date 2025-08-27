@@ -31,9 +31,10 @@ public class SimulatedGenreRepository implements GenreRepository {
 
     @Override
     public Genre findByName(String name) {
+        String trimmedName = name.trim();
         return genreDatabase.getGenreList()
                 .stream()
-                .filter(book -> book.getName().trim().equalsIgnoreCase(name.trim()))
+                .filter(book -> book.getName().trim().equalsIgnoreCase(trimmedName))
                 .findFirst()
                 .orElse(null);
     }
