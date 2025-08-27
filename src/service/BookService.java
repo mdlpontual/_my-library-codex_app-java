@@ -39,51 +39,60 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
-    public Book addBook(Book newBookEntry) {
-        if (newBookEntry ==  null) {
-            throw new IllegalArgumentException("Invalid book.");
-        };
-
-        // basic input check - checks book database:
-        // if there is a match, throws error to prevent duplicates
-        // if there is no match, returns new entry to proceed to repository - return at the end
-        if (newBookEntry.getTitle() == null || newBookEntry.getTitle().length() < 2) {
-            throw new IllegalArgumentException("Invalid title input.");
-        } else if (bookRepository.listAll()
-                .stream()
-                .anyMatch(n -> n.getTitle().trim()
-                        .equalsIgnoreCase(newBookEntry.getTitle().toLowerCase().trim()))) {
-            throw new IllegalArgumentException("This title already has an entry.");
+    public void addBook(Book newBookEntry) {
+        // checks if inputs are null
+        if (newBookEntry == null || newBookEntry.getTitle() == null) {
+            throw new IllegalArgumentException("book/title is required");
+        } else if (newBookEntry.getAuthor() == null || newBookEntry.getAuthor().getName() == null) {
+            throw new IllegalArgumentException("author/name is required");
+        } else if (newBookEntry.getGenre() == null || newBookEntry.getGenre().getName() == null) {
+            throw new IllegalArgumentException("genre/name is required");
         }
 
-        // basic input check - checks author database:
+        // checks minimum input length
+        String title = newBookEntry.getTitle().trim();
+        String authorName = newBookEntry.getAuthor().getName().trim();
+        String genreName  = newBookEntry.getGenre().getName().trim();
+        if (newBookEntry.getTitle().length() < 2) {
+            throw new IllegalArgumentException("Invalid title input. Title must have at least 2 characters.");
+        } else if (newBookEntry.getAuthor().getName().length() < 2) {
+            throw new IllegalArgumentException("Invalid name. Author's name must have at least 2 characters");
+        } else if (newBookEntry.getGenre().getName().length() < 2) {
+            throw new IllegalArgumentException("Invalid name. Genre's name must have at least 2 characters");
+        }
+
+        // vars prevent multiple independent method calls
+        var existingAuthor = authorRepository.findByName(authorName);
+        var existingGenre = genreRepository.findByName(genreName);
+
+        // checks book database:
+        // if there is a match, throws error to prevent duplicates
+        // if there is no match, returns new entry to proceed to repository - at the end
+        if (bookRepository.findByTitle(title) != null) {
+            throw new IllegalArgumentException(title + " already has an entry.");
+        }
+
+        // checks author database:
         // if there is a match, reset new entry's author to the existing one on db
-        // if there is no match, adds as a new entry to author db
-        if (newBookEntry.getAuthor().getName() == null || newBookEntry.getAuthor().getName().length() < 2) {
-            throw new IllegalArgumentException("Invalid author name.");
-        } else if (authorRepository.listAll()
-                .stream()
-                .anyMatch(n -> n.getName().trim().equalsIgnoreCase(
-                        newBookEntry.getAuthor().getName().toLowerCase().trim()))) {
-            newBookEntry.setAuthor(authorRepository.findByName(newBookEntry.getAuthor().getName()));
+        // if there is no match, add a new entry to author db
+        if (existingAuthor != null) {
+            newBookEntry.setAuthor(existingAuthor);
         } else {
+            // calls repository version of addAuthor with verified input data
             authorRepository.addAuthor(newBookEntry.getAuthor());
         }
 
-        // basic input check - checks genre database:
+        // checks genre database:
         // if there is a match, reset new entry's genre to the existing one on db
         // if there is no match, adds as a new entry to genre db
-        if (newBookEntry.getGenre().getName() == null || newBookEntry.getGenre().getName().length() < 2) {
-            throw new IllegalArgumentException("Invalid genre name.");
-        } else if (genreRepository.listAll()
-                .stream()
-                .anyMatch(n -> n.getName().trim().equalsIgnoreCase(
-                        newBookEntry.getGenre().getName().toLowerCase().trim()))) {
-            newBookEntry.setGenre(genreRepository.findByName(newBookEntry.getGenre().getName()));
+         if (existingGenre != null) {
+            newBookEntry.setGenre(existingGenre);
         } else {
+             // calls repository version of addGenre with verified input data
             genreRepository.addGenre(newBookEntry.getGenre());
         }
 
-        return newBookEntry;
+        // calls repository version of addBook with verified input data
+        bookRepository.addBook(newBookEntry);
     }
 }
