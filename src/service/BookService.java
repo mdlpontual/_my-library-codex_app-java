@@ -39,7 +39,7 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
-    public void addBook(Book newBookEntry) {
+    public String addBook(Book newBookEntry) {
         // checks if inputs are null
         if (newBookEntry == null || newBookEntry.getTitle() == null) {
             throw new IllegalArgumentException("book/title is required");
@@ -100,9 +100,10 @@ public class BookService {
 
         // calls repository version of addBook with verified input data
         bookRepository.addBook(newBookEntry);
+        return "Book successfully added!";
     }
 
-    public void removeById(Integer id) {
+    public String removeById(Integer id) {
         // input validation
         if(id == null || id <= 0) {
             throw new IllegalArgumentException("ID must be a positive number");
@@ -114,9 +115,10 @@ public class BookService {
             throw new NoSuchElementException("book id " + id + " not found");
         }
         bookRepository.removeById(id);
+        return "Book successfully removed!";
     }
 
-    public void removeByTitle(String title) {
+    public String removeByTitle(String title) {
     // input validation
         if(title == null || title.isBlank()) {
             throw new IllegalArgumentException("Title must not be empty");
@@ -129,5 +131,6 @@ public class BookService {
             throw new NoSuchElementException("book title " + trimmedTitle + " not found");
         }
         bookRepository.removeByTitle(trimmedTitle);
+        return "Book successfully removed!";
     }
 }
