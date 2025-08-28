@@ -1,7 +1,10 @@
 package view;
 
+import controller.BookController;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("HELLO WORLD");
+        NavigationMenu menu = new NavigationMenu();
+        menu.start();
     }
 }
