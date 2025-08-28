@@ -23,7 +23,14 @@ public class BookController {
 
     public Book findById() {
         System.out.println("Insert the ID you are searching for:");
-        Integer idInput = scanner.nextInt();
+        int idInput;
+        try {
+            idInput = scanner.nextInt();
+        } catch (Exception e) {
+            scanner.nextLine(); // clear bad input
+            System.out.println("Invalid ID.");
+            return null;
+        }
         scanner.nextLine();
 
         try {
