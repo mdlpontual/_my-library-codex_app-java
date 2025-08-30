@@ -88,14 +88,24 @@ Choose an option:
 * The **service** layer validates inputs and throws clear messages; the controller catches them and prints friendly text.
 * The CLI uses a single `Scanner` and confirmation prompts (Y/N or 0/1) to avoid accidental deletes.
 
-## Next Steps:
+Here’s the end-of-README section, keeping your structure and separating technical items:
+
+## Next Steps - Release Plan:
 
 ### Next Patch
 
-* **v0.1.1** — Integrate **ID-based actions** (enable find/remove by ID in the menu).
+* **v0.1.1 — Integrate ID-based actions** (enable find/remove by ID in the menu).
 
 ### Future Implementations
 
 * **Other media types:** magazines, CDs, vinyls, DVDs, Blu-ray, and videogames.
 * **More attributes & characteristics:** media type, language, year of release, edition, publishers, digital vs. physical, and media platform.
 * **More actions:** edit/update values, improved search tools, etc.
+
+### Technical Roadmap (Stack Upgrades)
+
+* **Persistence:** PostgreSQL with JDBC.
+* **ORM & JPA:** Hibernate/JPA entities and relationships; Spring Data JPA repositories.
+* **Spring Boot API:** REST controllers, global exception handling, environment profiles; API docs with OpenAPI/Swagger.
+...and more!
+
