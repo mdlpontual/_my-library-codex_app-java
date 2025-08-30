@@ -1,7 +1,7 @@
 # My Library Codex (CLI)
 
-Small Java **terminal app** to manage a personal book catalog.
-Supports **list**, **find (title)**, **add**, and **remove (title)**.
+**Terminal-first library manager.** A compact Java CLI to add, find, list, and remove books with a simple in-memory store and clear, guided prompts.
+
 
 > **Note:** All actions involving **IDs** are **inactive for now** (temporarily disabled). Use title-based actions to test.
 
